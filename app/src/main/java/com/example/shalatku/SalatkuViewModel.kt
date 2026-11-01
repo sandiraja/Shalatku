@@ -6,13 +6,16 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
-private const val ROUND_SIZE = 33
+
 class SalatKuViewModel : ViewModel() {
 
     var tasbihCount by mutableIntStateOf(0)
         private set
 
     var completedRounds by mutableIntStateOf(0)
+        private set
+
+    var roundSize by mutableIntStateOf(33)
         private set
 
     // --- Tracker ---
@@ -25,11 +28,18 @@ class SalatKuViewModel : ViewModel() {
 
     fun incrementTasbih() {
         tasbihCount++
-        if (tasbihCount == ROUND_SIZE) {
+        if (tasbihCount == roundSize) {
             completedRounds++
             tasbihCount = 0
         }
     }
+
+    fun selectRoundSize(size: Int) {
+        roundSize = size
+        tasbihCount = 0          // hitungan direset
+        // completedRounds tidak disentuh
+    }
+
 
     fun resetTasbih() {
         tasbihCount = 0
@@ -44,6 +54,8 @@ class SalatKuViewModel : ViewModel() {
         selectedDay = index
     }
 
-
+    fun clearPrayers() {
+        _donePrayers.clear()
+    }
 
 }

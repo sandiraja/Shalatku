@@ -3,6 +3,7 @@ package com.example.shalatku
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -20,29 +21,55 @@ import androidx.compose.ui.unit.dp
 fun TasbihScreen(
     count: Int,
     rounds: Int,
+    roundSize: Int,
     onIncrement: () -> Unit,
     onReset: () -> Unit,
-    modifier: Modifier = Modifier) {
+    onSelectRoundSize: (Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
 
     Column(
-        modifier.fillMaxSize().padding(16.dp),
+        modifier
+            .fillMaxSize()
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Text("Tasbih", style = MaterialTheme.typography.headlineMedium)
+
         Text(text = "Putaran: $rounds")
         Spacer(Modifier.height(16.dp))
+
         Text("$count", style = MaterialTheme.typography.displayLarge)
         Spacer(Modifier.height(24.dp))
+
         Button(onClick = onIncrement) { Text("+1") }
         Spacer(Modifier.height(8.dp))
         OutlinedButton(onClick = onReset) { Text("Reset") }
-    }
 
+        Spacer(Modifier.height(16.dp))
+        Text("Target putaran")
 
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            listOf(33, 99, 100).forEach { size ->
+                OutlinedButton(onClick = { onSelectRoundSize(size) }) {
+                    Text("$size")
+                }
+            }
+        }
     }
-@Preview(showBackground = true)
-@Composable
-fun TasbihScreenPreview() {
-    TasbihScreen(count = 12, rounds = 2, onIncrement = {}, onReset = {})
 }
+    @Preview(showBackground = true)
+    @Composable
+    fun TasbihScreenPreview() {
+        TasbihScreen(
+            count = 12,
+            rounds = 2,
+            roundSize = 11,
+            onIncrement = {},
+            onReset = {},
+            onSelectRoundSize = {}
+        )
+    }
+
+
