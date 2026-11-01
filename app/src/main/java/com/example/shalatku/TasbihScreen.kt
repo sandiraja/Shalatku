@@ -43,6 +43,8 @@ fun TasbihScreen(
         Text("$count", style = MaterialTheme.typography.displayLarge)
         Spacer(Modifier.height(24.dp))
 
+        Text("$count / $roundSize", style = MaterialTheme.typography.titleMedium)
+
         Button(onClick = onIncrement) { Text("+1") }
         Spacer(Modifier.height(8.dp))
         OutlinedButton(onClick = onReset) { Text("Reset") }

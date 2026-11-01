@@ -72,7 +72,10 @@ fun ShalatkuApp(viewModel: SalatKuViewModel = viewModel()) {
                 prayers = uiState.prayers,
                 selectedDay = uiState.selectedDay,
                 onSelectDay = { viewModel.onEvent(SalatKuEvent.DaySelected(it)) },
+                prayerTimes = uiState.prayerTimes,
+                onRefreshPrayerTimes = { viewModel.onEvent(SalatKuEvent.PrayerTimesRequested) },
                 modifier = contentModifier
+
             )
             1 -> TrackerScreen(
                 prayers = uiState.prayers,
@@ -91,6 +94,8 @@ fun ShalatkuApp(viewModel: SalatKuViewModel = viewModel()) {
                 onSelectRoundSize = { viewModel.onEvent(SalatKuEvent.RoundSizeSelected(it)) },
                 modifier = contentModifier
             )
+
+
         }
     }
 }

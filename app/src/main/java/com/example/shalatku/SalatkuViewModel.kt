@@ -5,6 +5,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SalatKuViewModel : ViewModel() {
 
@@ -19,6 +22,8 @@ class SalatKuViewModel : ViewModel() {
             SalatKuEvent.TasbihIncremented -> incrementTasbih()
             SalatKuEvent.TasbihReset -> resetTasbih()
             is SalatKuEvent.RoundSizeSelected -> selectRoundSize(event.size)
+            SalatKuEvent.PrayerTimesRequested -> loadPrayerTimes()
+
         }
     }
     // --- Tasbih ---
@@ -61,8 +66,29 @@ class SalatKuViewModel : ViewModel() {
     // --- Home ---
     private fun selectDay(index: Int) {
         _uiState.update { it.copy(selectedDay = index) }
+    }
 
+    private var loadCount = 0
 
+    private fun loadPrayerTimes() {
+        if (_uiState.value.prayerTimes is PrayerTimesUiState.Loading) return
 
+        loadCount++
+        val shouldFail = loadCount % 2 == 0
+
+        _uiState.update { it.copy(prayerTimes = PrayerTimesUiState.Loading) }
+
+        viewModelScope.launch {
+            delay(1500)
+            _uiState.update {
+                it.copy(
+                    prayerTimes = if (shouldFail) {
+                        PrayerTimesUiState.Error("Gagal memuat jadwal. Coba lagi.")
+                    } else {
+                        PrayerTimesUiState.Success(samplePrayers)
+                    }
+                )
+            }
+        }
     }
 }

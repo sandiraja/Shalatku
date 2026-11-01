@@ -7,4 +7,5 @@ sealed interface SalatKuEvent {
     data object TasbihIncremented : SalatKuEvent
     data object TasbihReset : SalatKuEvent
     data class RoundSizeSelected(val size: Int) : SalatKuEvent
+    data object PrayerTimesRequested : SalatKuEvent
 }

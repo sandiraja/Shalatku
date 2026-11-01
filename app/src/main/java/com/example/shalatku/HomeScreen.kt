@@ -17,12 +17,14 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun HomeScreen(prayers: List<Prayer>, selectedDay: Int,
-               onSelectDay: (Int) -> Unit, modifier: Modifier = Modifier) {
+               onSelectDay: (Int) -> Unit, prayerTimes: PrayerTimesUiState,
+               onRefreshPrayerTimes: () -> Unit, modifier: Modifier = Modifier) {
     Column(modifier.padding(16.dp)) {
         Text("Shalatku", style = MaterialTheme.typography.headlineMedium)
         Text("Today's prayer times", style = MaterialTheme.typography.bodyMedium)
         Spacer(Modifier.height(16.dp))
         prayers.forEach { prayer -> PrayerCard(prayer) }
+        PrayerTimesSection(state = prayerTimes, onRefresh = onRefreshPrayerTimes)
     }
 }
 
