@@ -71,24 +71,24 @@ fun ShalatkuApp(viewModel: SalatKuViewModel = viewModel()) {
             0 -> HomeScreen(
                 prayers = uiState.prayers,
                 selectedDay = uiState.selectedDay,
-                onSelectDay = viewModel::selectDay,
-                modifier = contentModifier,
+                onSelectDay = { viewModel.onEvent(SalatKuEvent.DaySelected(it)) },
+                modifier = contentModifier
             )
             1 -> TrackerScreen(
                 prayers = uiState.prayers,
                 donePrayers = uiState.donePrayers,
                 doneCount = uiState.doneCount,
-                onToggle = viewModel::togglePrayer,
-                onClear = viewModel::clearPrayers,
+                onToggle = { viewModel.onEvent(SalatKuEvent.PrayerToggled(it)) },
+                onClear = { viewModel.onEvent(SalatKuEvent.PrayersCleared) },
                 modifier = contentModifier
             )
             2 -> TasbihScreen(
                 count = uiState.tasbihCount,
                 rounds = uiState.completedRounds,
                 roundSize = uiState.roundSize,
-                onIncrement = viewModel::incrementTasbih,
-                onReset = viewModel::resetTasbih,
-                onSelectRoundSize = viewModel::selectRoundSize,  // namamu, bukan setRoundSize
+                onIncrement = { viewModel.onEvent(SalatKuEvent.TasbihIncremented) },
+                onReset = { viewModel.onEvent(SalatKuEvent.TasbihReset) },
+                onSelectRoundSize = { viewModel.onEvent(SalatKuEvent.RoundSizeSelected(it)) },
                 modifier = contentModifier
             )
         }
